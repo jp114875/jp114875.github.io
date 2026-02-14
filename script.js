@@ -9,7 +9,7 @@ const scenes = {
     text: "By: julian\nFor: theresa!!!",
     image: "images/title.png",
     choices: [
-      { text: "Start 💖", next: "decision1" }
+      { text: "Start", next: "decision1" }
     ]
   },
 
@@ -123,7 +123,7 @@ const scenes = {
   },
 
   ending31ab: {
-    title: "Yay he’s healed now!!! But…",
+    title: "Yay he's healed now!!! But…",
     text: "Before you knew it… HE MOVED UR HAND TO CUP HIM!!! MWAHAHAHHAHAA",
     image: "images/ending31ab.png",
     choices: []
@@ -137,7 +137,7 @@ const scenes = {
   },
 
   ending31bb: {
-    title: "You’ll regret that…",
+    title: "You'll regret that…",
     text: "Agatha teams up with julian so that he can give you infinite nose boops!!! You better say no more muhehehehhe",
     image: "images/ending31bb.png",
     choices: []
@@ -145,7 +145,7 @@ const scenes = {
 
   ending32aa: {
     title: "S-so… sleeepyyyy…",
-    text: "After coming home you guys just knock out… I can’t believe we slept the whole day theresa…",
+    text: "After coming home you guys just knock out… I can't believe we slept the whole day theresa…",
     image: "images/ending32aa.png",
     choices: []
   },
@@ -203,19 +203,24 @@ function loadScene(sceneKey) {
       });
     } else {
       const restartBtn = document.createElement("button");
-      restartBtn.innerText = "Restart 💖";
+      restartBtn.innerText = "Restart";
       restartBtn.onclick = () => loadScene("start");
       choicesDiv.appendChild(restartBtn);
     }
 
-    // SAFE image swap (no blank screen if image missing)
-    img.style.opacity = "0";
-    img.src = scene.image;
-    img.onload = () => {
-      img.style.opacity = "1";
+    // Preload image before swapping to prevent flicker
+    const newImg = new Image();
+    newImg.src = scene.image;
+    
+    newImg.onload = () => {
+      img.src = scene.image;
+      container.style.opacity = "1";
     };
 
-    container.style.opacity = "1";
+    newImg.onerror = () => {
+      img.src = scene.image;
+      container.style.opacity = "1";
+    };
 
   }, 400);
 }
