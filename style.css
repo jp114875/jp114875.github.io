@@ -16,10 +16,6 @@ body {
   transition: opacity 0.4s ease;
 }
 
-.container.fade-out {
-  opacity: 0;
-}
-
 h1 {
   font-size: 28px;
   margin-bottom: 20px;
@@ -31,7 +27,8 @@ img {
   object-fit: contain;
   border-radius: 12px;
   margin-bottom: 20px;
-  transition: transform 0.4s ease;
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.4s ease;
 }
 
 img:hover {
