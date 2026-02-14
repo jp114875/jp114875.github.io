@@ -143,28 +143,30 @@ const textEl = document.getElementById("scene-text");
 const choicesEl = document.getElementById("choices");
 
 function loadScene(sceneKey) {
-  const scene = scenes[sceneKey];
+  const container = document.querySelector(".container");
 
-  titleEl.textContent = scene.title;
-  imageEl.src = scene.image;
-  textEl.textContent = scene.text;
+  container.classList.add("fade-out");
 
-  choicesEl.innerHTML = "";
+  setTimeout(() => {
+    const scene = scenes[sceneKey];
 
-  if (scene.choices.length === 0) {
-    const restartBtn = document.createElement("button");
-    restartBtn.textContent = "Restart";
-    restartBtn.onclick = () => loadScene("start");
-    choicesEl.appendChild(restartBtn);
-    return;
-  }
+    document.getElementById("scene-title").innerText = scene.title;
+    document.getElementById("scene-text").innerText = scene.text;
+    document.getElementById("scene-image").src = scene.image;
 
-  scene.choices.forEach(choice => {
-    const btn = document.createElement("button");
-    btn.textContent = choice.text;
-    btn.onclick = () => loadScene(choice.next);
-    choicesEl.appendChild(btn);
-  });
+    const choicesDiv = document.getElementById("choices");
+    choicesDiv.innerHTML = "";
+
+    scene.choices.forEach(choice => {
+      const btn = document.createElement("button");
+      btn.innerText = choice.text;
+      btn.onclick = () => loadScene(choice.next);
+      choicesDiv.appendChild(btn);
+    });
+
+    container.classList.remove("fade-out");
+  }, 400);
 }
+
 
 loadScene("start");
