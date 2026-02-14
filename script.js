@@ -180,32 +180,21 @@ const scenes = {
 // ==========================
 
 function loadScene(sceneKey) {
+  const scene = scenes[sceneKey];
   const container = document.querySelector(".container");
   const img = document.getElementById("scene-image");
 
   container.style.opacity = "0";
 
   setTimeout(() => {
-    const scene = scenes[sceneKey];
 
     document.getElementById("scene-title").innerText = scene.title;
     document.getElementById("scene-text").innerText = scene.text;
 
-    // Smooth image swap
-    img.style.opacity = "0";
-
-    const newImg = new Image();
-    newImg.src = scene.image;
-
-    newImg.onload = function () {
-      img.src = scene.image;
-      img.style.opacity = "1";
-    };
-
     const choicesDiv = document.getElementById("choices");
     choicesDiv.innerHTML = "";
 
-    if (scene.choices && scene.choices.length > 0) {
+    if (scene.choices.length > 0) {
       scene.choices.forEach(choice => {
         const btn = document.createElement("button");
         btn.innerText = choice.text;
@@ -219,10 +208,18 @@ function loadScene(sceneKey) {
       choicesDiv.appendChild(restartBtn);
     }
 
+    // SAFE image swap (no blank screen if image missing)
+    img.style.opacity = "0";
+    img.src = scene.image;
+    img.onload = () => {
+      img.style.opacity = "1";
+    };
+
     container.style.opacity = "1";
 
   }, 400);
 }
+
 
 
 // ==========================
